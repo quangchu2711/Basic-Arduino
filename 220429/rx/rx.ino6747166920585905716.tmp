@@ -1,0 +1,25 @@
+uint16_t dataReceive;
+uint8_t dataCheck;
+
+void setup() 
+{
+  // put your setup code here, to run once:
+  dataCheck = 0;
+  Serial.begin(9600);
+  pinMode(13, OUTPUT);
+//  digitalWrite(13, HIGH);
+}
+
+void loop() 
+{
+  // put your main code here, to run repeatedly:
+  if (Serial.available() > 0)
+  {
+    dataCheck = 1;
+    dataReceive = Serial.read();
+  }
+  if (dataCheck)
+  {
+    digitalWrite(13, HIGH);
+  }
+}

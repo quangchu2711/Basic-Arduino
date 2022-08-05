@@ -1,0 +1,28 @@
+//Ket noi Arduino voi cam bien anh sang:
+//Arduino pin   thLight pin
+//A3   out
+//VCC  V3
+//GND  GND
+int light_senor_pin = A3;
+int a = 4;
+int b = 5;
+int c = 6;
+#include<thLed.h>
+
+void setup() {
+  Serial.begin(9600);
+  pinMode(light_senor_pin,INPUT);//Cau hinh INPUT de doc gia tri cam bien
+  thLed.begin(a,b,c);
+}
+
+void loop() {
+  int light_value = analogRead(light_senor_pin); // doc gia tri cam bien anh sang
+  Serial.println(light_value);
+  for(int i = 0;i < 8;i++){
+    if(light_value >= 500 && light_value <= 900){
+      thLed.setLed(i,LED_ON);
+    }else{
+      thLed.setLed(i,LED_OFF);
+    }
+  }
+}

@@ -1,0 +1,95 @@
+int pin_SDI = 7;
+int pin_SCK = 8;
+int pin_RCK = 9;
+
+void setup() {
+  pinMode(pin_SDI, OUTPUT);
+  pinMode(pin_SCK, OUTPUT);
+  pinMode(pin_RCK, OUTPUT);
+}
+
+byte so[10] = {0xBE, 0xA0, 0x2F, 0xAB, 0xB1, 0x9B, 0x9F, 0xA8, 0xBF, 0xBB};
+
+void shift_out(byte val)
+{
+  for (int i = 0; i <= 7; i++)
+  {
+    digitalWrite(pin_SDI, !((val & 128) != 0));
+    val = val << 1; 
+    digitalWrite(pin_SCK, HIGH);
+    digitalWrite(pin_SCK, LOW);
+  }
+}
+
+void num1(int val)
+{
+    shift_out(0x00);
+    shift_out(0x00);
+    shift_out(0x00);
+    shift_out(so[val]);
+    digitalWrite(pin_RCK, HIGH);
+    digitalWrite(pin_RCK, LOW);
+}
+
+void num2(int val)
+{
+    shift_out(0x00);
+    shift_out(0x00);
+    shift_out(so[val / 10]);
+    shift_out(so[val % 10]);
+    digitalWrite(pin_RCK, HIGH);
+    digitalWrite(pin_RCK, LOW);
+}
+
+void num3(int val)
+{
+    shift_out(0x00);
+    shift_out(so[val / 100]);
+    val = val % 100;
+    shift_out(so[val / 10]);
+    shift_out(so[val % 10]);
+    digitalWrite(pin_RCK,HIGH); //Chan RCk hoat dong
+    digitalWrite(pin_RCK,LOW); //Chan OE hoat dong
+}
+
+void num4(int val)
+{
+   shift_out(so[val / 1000]);
+   val = val % 1000;
+   shift_out(so[val / 100]);
+   val = val % 100;
+   shift_out(so[val / 10]);
+   val = val % 10;
+   shift_out(so[val]);
+   digitalWrite(pin_RCK,HIGH); //Chan RCk hoat dong
+   digitalWrite(pin_RCK,LOW); //Chan OE hoat dong
+}
+
+void Num(int val)
+{
+  int value = abs(val);
+  byte Array[4] = {0x00, 0x00, 0x00, 0x00};
+  int dem = 3;
+  while(val > 0)
+  {
+    Array[dem] = so[val % 10];
+    val = val / 10; 
+    dem--;
+  }
+  if(value == 0) Array[dem] = so[0];
+  if(value < 0) Array[dem] = _BV(0);
+  for(int i = 0; i <= 3; i++)
+  {
+    shift_out(Array[i]); 
+  }
+  digitalWrite(pin_RCK,HIGH); //Chan RCk hoat dong
+  digitalWrite(pin_RCK,LOW); //Chan OE hoat dong
+}
+
+void loop() {
+  for(int i = -999; i <= 9999; i++)
+  {
+    Num(i);
+    delay(500);
+  }
+}

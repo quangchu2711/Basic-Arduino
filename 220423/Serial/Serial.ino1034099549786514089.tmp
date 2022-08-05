@@ -1,0 +1,30 @@
+char incomingByte;   // lưu tín hiệu đến
+//String x = ;
+
+void setup() 
+{
+  pinMode(2, OUTPUT);
+  Serial.begin(9600);     // mở cổng serial với mức baudrate là 9600
+  digitalWrite(2, LOW);
+}
+
+void loop() 
+{
+//  // xuất tín hiệu khi nhận được tín hiệu
+  if (Serial.available() > 0) 
+  {
+    // đọc các giá trị nhận được
+    incomingByte = Serial.read();
+    if (incomingByte == '1')
+    {
+      digitalWrite(2, HIGH);
+    }
+    if (incomingByte == '0')
+    {
+      digitalWrite(2, LOW);
+    }
+  }
+
+//  Serial.println("hello acsacas");
+//  delay(1000);
+}

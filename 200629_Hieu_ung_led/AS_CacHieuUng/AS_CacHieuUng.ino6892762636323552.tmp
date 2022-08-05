@@ -1,0 +1,24 @@
+int thLED_SDI_pin = 4;
+int thLED_RCK_pin = 5;
+int thLED_SCK_pin = 6;
+#include<thLed.h>
+int light_sensor_pin = A3;
+void setup() {
+  thLed.begin(thLED_SDI_pin,thLED_SCK_pin,thLED_RCK_pin);
+  Serial.begin(9600); //Khoi tao ket noi may tinh voi toc do 9600
+  pinMode(light_sensor_pin,INPUT); // cau hinh INPUT de doc gia tri cam bien
+}
+
+void loop() {
+  int light_value = analogRead(light_sensor_pin); // doc gia tri cam bien anh sang
+  Serial.println(light_value);
+  if(light_value >= 900){
+    for(int i = 0;i <= 6;i++){
+      thLed.setLed(i,LED_ON);
+    }
+  }else{
+    for(int i = 0;i <= 6;i++){
+      thLed.setLed(i,LED_OFF);
+    }
+  }
+}

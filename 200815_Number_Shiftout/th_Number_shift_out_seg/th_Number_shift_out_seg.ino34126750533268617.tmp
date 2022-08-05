@@ -1,0 +1,33 @@
+int pin_SDI = 7; //Du lieu
+int pin_SCK = 8; //Chuyen du lieu
+int pin_RCK = 9; //Chot du lieu
+
+void setup() 
+{
+  pinMode (pin_SDI, OUTPUT);
+  pinMode (pin_SCK, OUTPUT);
+  pinMode (pin_RCK, OUTPUT);
+}
+
+void shift_out(int pin_SDI, int pin_SCK, byte out_put)
+{
+  for(int i = 0; i <= 7; i++)
+  {
+    digitalWrite(pin_SDI, !(out_put & (1 << (7 - i ))));
+    out_put = out_put >> 1;
+  }
+  digitalWrite(pin_SCK, HIGH);
+  digitalWrite(pin_SCK, LOW);
+}
+void seg(byte output)
+{
+  shift_out(pin_SDI, pin_SCK, output);;
+  digitalWrite(pin_RCK, HIGH);
+  digitalWrite(pin_RCK, LOW);
+}
+
+void loop() 
+{
+  seg(5);
+  delay(1000);
+}

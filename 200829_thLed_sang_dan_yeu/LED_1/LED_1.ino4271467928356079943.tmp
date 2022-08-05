@@ -1,0 +1,27 @@
+int led5 = 11;
+int led3 = 12;
+
+void setup() 
+{
+  //analogWrite(led4, 50);
+  pinMode(led5, OUTPUT);
+}
+
+void loop() 
+{
+//  analogWrite(led5, 30);
+//  delay(200);
+//  analogWrite(led5,50);
+//  delay(20);
+  //analogWrite(led3,255);
+//  delay(20);
+
+
+for(int i = 0; i <= 40; i++)
+{
+  digitalWrite(led5, HIGH);
+  delayMicroseconds(100);
+  digitalWrite(led5, LOW);
+  delayMicroseconds(900);
+}
+}

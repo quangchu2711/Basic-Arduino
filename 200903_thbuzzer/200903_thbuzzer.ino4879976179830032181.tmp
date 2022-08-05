@@ -1,0 +1,33 @@
+//int period = 2000;
+//unsigned long time_now = 0;
+ 
+void setup() {
+    Serial.begin(9600);
+}
+
+void Delay(int period)
+{
+  unsigned time_now = 0;
+  while(1)
+  {
+    time_now = millis();
+ 
+    Serial.println("Hello");
+ 
+    while(millis() < time_now + period){
+        //wait approx. [period] ms
+    }
+  }
+}
+ 
+void loop() 
+{
+  Delay(100);
+//    time_now = millis();
+// 
+//    Serial.println("Hello");
+// 
+//    while(millis() < time_now + period){
+//        //wait approx. [period] ms
+//    }
+}

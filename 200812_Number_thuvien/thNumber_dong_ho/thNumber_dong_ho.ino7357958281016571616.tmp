@@ -1,0 +1,45 @@
+#include<thNumber.h>
+#include<thButton.h>
+
+int SDI_pin = 7;
+int SCK_pin = 8;
+int RCK_pin = 9;
+
+int button0_pin = 10;
+int button2_pin = 5;
+int button1_pin = 11;
+
+thButton button0(button0_pin); 
+thButton button2(button2_pin);
+thButton button1(button1_pin); 
+
+void setup()
+{
+  thNumber.begin(SDI_pin, SCK_pin, RCK_pin);
+}
+
+void loop()
+{
+  if(button0.onPress())
+  {
+    while(1)
+    {
+      for (int minute = 0; minute < 60; minute++)
+      {
+        if(button0.onPress()) return;
+        thNumber.setNum2(2, minute);
+        for (int second = 0; second < 60; second++)
+        {
+          {
+            if(button0.onPress()) return;
+            thNumber.setNum2(0, second);
+            thNumber.showDot(2);
+            delay(500);
+            thNumber.hideDot(2);
+            delay(500);
+          }
+        }
+      }
+    }
+  }
+}
